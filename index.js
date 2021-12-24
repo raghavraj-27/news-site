@@ -27,10 +27,10 @@ function loadTheNews() {
             let myCompleteHTML = ""; 
             
             for(var i=0; i<data.articles.length; i++) {
-                news = `<div style="margin: 20px; border-radius: 5px; border: 1px solid black; padding: 10px">
+                news = `<div class="border border-danger mt-2 mx-2">
                         <h4> ${data.articles[i].title} </h4>
                         <h5> ${data.articles[i].description} </h5>
-                        <img src="${data.articles[i].image}" style="height: 90px; width: 70px; float:right" />
+                        <img src="${data.articles[i].image}" style="height: 100px;  float:right" />
                         <p> ${data.articles[i].content} <a href="${data.articles[i].url}"> Read more here </a></p>
                         </div>`;
                 
@@ -114,7 +114,7 @@ function showTemperature(position) {
             // const mintemp = data.main.temp_min; 
             // const maxtemp = data.main.temp_max;
             // const desc = data.weather[0].description; 
-            let html = `<h3> Todays Temperature </h3>
+            let html = `<h3> Today's Temperature </h3>
                         <div>
                         <p>Temperature : ${data.main.temp} °C</p>
                         <p>Feels Like : ${data.main.feels_like} °C</p>
@@ -163,7 +163,7 @@ function loadTheEvents() {
             let completeHTML = `<h3> Some earlier events happend today (${todayDate}/${nowMonth}/${nowYear}) </h3>`;
 
             for(var i=0; i<Math.min(events.length, 15); i++) {
-                let subevents = `<div style="margin: 10px; padding: 10px; border: 1px solid black;">
+                let subevents = `<div class="border border-3" style="margin: 20px; padding: 10px; ">
                                     <h4> ${contents.data.Events[i].year} </h4>
                                     <p> ${contents.data.Events[i].text} </p>
                                 </div>`;
