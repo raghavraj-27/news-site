@@ -27,10 +27,10 @@ function loadTheNews() {
             let myCompleteHTML = ""; 
             
             for(var i=0; i<data.articles.length; i++) {
-                news = `<div class="border border-danger mt-2 mx-2">
+                news = `<div style="margin: 20px; border-radius: 5px; border: 1px solid black; padding: 10px; overflow:hidden">
                         <h4> ${data.articles[i].title} </h4>
                         <h5> ${data.articles[i].description} </h5>
-                        <img src="${data.articles[i].image}" style="height: 100px;  float:right" />
+                        <img src="${data.articles[i].image}" style="height: 150px;float:right" />
                         <p> ${data.articles[i].content} <a href="${data.articles[i].url}"> Read more here </a></p>
                         </div>`;
                 
@@ -73,10 +73,10 @@ function searchBtnExecute() {
                 let myCompleteHTML = ""; 
                 
                 for(var i=0; i<data.articles.length; i++) {
-                    news = `<div style="margin: 20px; border-radius: 5px; border: 1px solid black; padding: 10px">
+                    news = `<div style="margin: 20px; border-radius: 5px; border: 1px solid black; padding: 10px; overflow:hidden">
                             <h4> ${data.articles[i].title} </h4>
                             <h5> ${data.articles[i].description} </h5>
-                            <img src="${data.articles[i].image}" style="height: 90px; width: 70px; float:right" />
+                            <img src="${data.articles[i].image}" style="height: 150px;float:right" />
                             <p> ${data.articles[i].content} <a href="${data.articles[i].url}"> Read more here </a></p>
                             </div>`;
                     
