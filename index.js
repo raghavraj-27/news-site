@@ -1,4 +1,3 @@
-
 function loadTheNews() {
     const xhr = new XMLHttpRequest(); 
     let date = "";
