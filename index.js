@@ -1,20 +1,14 @@
-function initails() {
-    loadTheNews();
-    loadTheEvents();
-}
 
 function loadTheNews() {
-
-    // instantiatedate.getDate() an xhr object
     const xhr = new XMLHttpRequest(); 
-
+    let date = "";
     // open the object
     const url = 'https://gnews.io/api/v4/search?q=india&token=658b157cdebda978507d1fddf5f6d078&lang=en';
     xhr.open('GET', url, true);
 
     // What to do on progress (optional)
     xhr.onprogress = function() {
-        // console.log('On progress');
+
     }
 
     // What to do when response is ready
@@ -22,7 +16,9 @@ function loadTheNews() {
         if(this.status == 200)
         {
             const data = JSON.parse(this.responseText);
-            // console.log(data.articles[0].title);
+            date = data.articles[0].publishedAt;
+            loadTheEvents(date);
+            
             let news = ""; 
             let myCompleteHTML = ""; 
             
@@ -46,8 +42,44 @@ function loadTheNews() {
 
     // send the request
     xhr.send();
+    
+}
 
-    // showTemperature(); 
+
+function loadTheEvents(d) {
+    // instantiate an xhr object
+    const xhr = new XMLHttpRequest(); 
+
+    const todayDate = d.substring(8,10); 
+    const nowMonth = d.substring(5,7);
+    const nowYear = d.substring(0,4);
+    const url = 'http://history.muffinlabs.com/date/' + nowMonth + '/' + todayDate;
+    xhr.open('GET', url, true);
+
+    xhr.onload = function () {
+        if(this.status == 200)
+        {
+            const contents = JSON.parse(this.responseText);
+            const events = contents.data.Events;
+
+            let completeHTML = `<h3> Some earlier events happend today (${todayDate}/${nowMonth}/${nowYear}) </h3>`;
+
+            for(var i=0; i<Math.min(events.length, 15); i++) {
+                let subevents = `<div class="border border-3" style="margin: 20px; padding: 10px; ">
+                                    <h4> ${contents.data.Events[i].year} </h4>
+                                    <p> ${contents.data.Events[i].text} </p>
+                                </div>`;
+                completeHTML += subevents;
+            }
+
+            let eventsArea = document.getElementById('eventsArea');
+            eventsArea.innerHTML = completeHTML;
+        }
+        else
+        console.log('Does not got the response');
+    }
+
+    xhr.send();
 }
 
 let searchBtn = document.getElementById("searchBtn"); 
@@ -95,7 +127,7 @@ function searchBtnExecute() {
 
 
 const errorCallback = (error) => {
-    // console.log(error);
+    
 };
 
 navigator.geolocation.getCurrentPosition(showTemperature, errorCallback);
@@ -103,7 +135,7 @@ navigator.geolocation.getCurrentPosition(showTemperature, errorCallback);
 function showTemperature(position) {
     const lan = position.coords.longitude;
     const lat = position.coords.latitude; 
-    console.log(lan + ',' + lat);
+    // console.log(lan + ',' + lat);
     const apikey = 'e187219afeb3287cbed4dfe74f29168e';
     const url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lan + '&appid=' + apikey + '&units=metric';
     const xhr = new XMLHttpRequest;
@@ -130,55 +162,4 @@ function showTemperature(position) {
         }
     }
     xhr.send();
-}
-
-
-function loadTheEvents() {
-    // instantiate an xhr object
-    const xhr = new XMLHttpRequest(); 
-
-    // open the object
-    const date = new Date;
-    const todayDate = date.getDate(); 
-    const nowMonth = date.getMonth() + 1;
-    const nowYear = date.getFullYear();
-    // console.log(date);
-    // console.log("Date : " + date.getDate() + " and Month : " + date.getMonth());
-
-    const url = 'http://history.muffinlabs.com/date/' + nowMonth + '/' + todayDate;
-    xhr.open('GET', url, true);
-
-    // What to do on progress (optional)
-    // xhr.onprogress = function() {
-        // console.log('On progress');
-    // }
-
-    // What to do when response is ready
-    xhr.onload = function () {
-        if(this.status == 200)
-        {
-            const contents = JSON.parse(this.responseText);
-            const events = contents.data.Events;
-
-            let completeHTML = `<h3> Some earlier events happend today (${todayDate}/${nowMonth}/${nowYear}) </h3>`;
-
-            for(var i=0; i<Math.min(events.length, 15); i++) {
-                let subevents = `<div class="border border-3" style="margin: 20px; padding: 10px; ">
-                                    <h4> ${contents.data.Events[i].year} </h4>
-                                    <p> ${contents.data.Events[i].text} </p>
-                                </div>`;
-                completeHTML += subevents;
-            }
-
-            let eventsArea = document.getElementById('eventsArea');
-            eventsArea.innerHTML = completeHTML;
-        }
-        else
-        console.log('Does not got the response');
-    }
-
-    // send the request
-    xhr.send();
-
-    // showTemperature(); 
 }
